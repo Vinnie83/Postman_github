@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "604ab94b-99a9-42ad-9028-21e331bb5c70",
+		"name": "Velin_postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25603403"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "Get all repo issues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check if response is array of issues\", function(){\r",
+									"       const body = pm.response.json();\r",
+									"       console.log(\"BODY\", body);\r",
+									"       pm.expect(Array.isArray(body))\r",
+									"\r",
+									"       for(let item of body){\r",
+									"           pm.expect(typeof(item.title)).equals(\"string\");\r",
+									"           pm.expect(typeof(item.number)).equals(\"number\");\r",
+									"           pm.expect(item.number, \"Issue number property\").is.greaterThan(0);\r",
+									"       }\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Vinnie83/postman/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Vinnie83",
+								"postman",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get issue by number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Check issue number\", function(){\r",
+									"    const body = pm.response.json();\r",
+									"\r",
+									"    pm.expect(body.number, \"Number property\").equals(15);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Check status code\", function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Issue is open\", function(){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.state).equals(\"open\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/Vinnie83/postman/issues/15",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"Vinnie83",
+								"postman",
+								"issues",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
